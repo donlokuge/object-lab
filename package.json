@@ -13,6 +13,8 @@
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.0",
     "@nx/nest": "^21.3.0",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.6.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
+import './global.css'; // Ensure global styles are imported
 import App from './app/app';
 
 const root = ReactDOM.createRoot(
