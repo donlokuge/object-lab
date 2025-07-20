@@ -4,9 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/demo-api-e2e"
-    },
-    {
       "path": "./packages/demo-api"
     }
   ]
