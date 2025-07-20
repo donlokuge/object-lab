@@ -5,7 +5,7 @@ import {
   useSceneObjectControllerCreate,
   useSceneObjectControllerRemove,
   getSceneObjectControllerFindAllQueryKey,
-} from '@object-lab/api-client';
+} from '@object-lab/demo-api-client';
 
 export interface Vector3 {
   x: number;

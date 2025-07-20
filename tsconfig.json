@@ -10,7 +10,7 @@
       "path": "./packages/viewer"
     },
     {
-      "path": "./packages/api-client"
+      "path": "./packages/demo-api-client"
     }
   ]
 }

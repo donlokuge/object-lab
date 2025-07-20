@@ -10,8 +10,8 @@ test:
 create-app:
 	npx nx g @nx/nest:app packages/${appname}
 
-generate-api-client:
-	npx orval --config packages/api-client/orval.config.ts
+generate-demo-api-client:
+	npx orval --config packages/demo-api-client/orval.config.ts
 
 generate-swagger:
 	npx nx run @object-lab/demo-api:generate-openapi

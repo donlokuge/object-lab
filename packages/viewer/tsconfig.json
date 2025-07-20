@@ -3,7 +3,7 @@
   "include": [],
   "references": [
     {
-      "path": "../api-client"
+      "path": "../demo-api-client"
     },
     {
       "path": "./tsconfig.app.json"

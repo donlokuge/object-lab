@@ -87,7 +87,7 @@ Interactive Swagger documentation is available at: **http://localhost:3000/api/d
 object-lab/
 ├── packages/
 │   ├── demo-api/          # NestJS API server
-│   ├── api-client/        # API client for the demo
+│   ├── demo-api-client/        # API client for the demo
 │   └── viewer/            # Frontend viewer application
 ├── Makefile               # Make commands for easy development
 ├── README.md
