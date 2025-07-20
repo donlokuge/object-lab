@@ -1,12 +1,12 @@
 export default {
   sceneApi: {
     input: {
-      target: 'http://localhost:3000/api/docs/',
+      target: '../demo-api/swagger.json',
     },
     output: {
       mode: 'tags-split',
-      target: 'packages/api-client/src/generated/',
-      schemas: 'packages/api-client/src/schemas/',
+      target: 'src/generated/',
+      schemas: 'src/schemas/',
       client: 'react-query',
     },
   },
