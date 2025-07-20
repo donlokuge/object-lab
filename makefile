@@ -1,5 +1,8 @@
-run:
+serve:
 	npx nx run @object-lab/demo-api:serve 
+
+run:
+	npx nx run @object-lab/viewer:dev 
 
 test:
 	nx run @object-lab/demo-api:test
