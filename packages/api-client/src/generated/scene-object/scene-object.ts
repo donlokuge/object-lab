@@ -25,6 +25,11 @@ import type {
   AxiosResponse
 } from 'axios';
 
+import type {
+  CreateSceneObjectDto,
+  UpdateSceneObjectDto
+} from '../../schemas';
+
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -89,20 +94,21 @@ export function useSceneObjectControllerFindAll<TData = Awaited<ReturnType<typeo
 
 
 export const sceneObjectControllerCreate = (
-     options?: AxiosRequestConfig
+    createSceneObjectDto: CreateSceneObjectDto, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<void>> => {
     
     
     return axios.default.post(
-      `/scene-objects`,undefined,options
+      `/scene-objects`,
+      createSceneObjectDto,options
     );
   }
 
 
 
 export const getSceneObjectControllerCreateMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, TError,void, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, TError,void, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, TError,{data: CreateSceneObjectDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, TError,{data: CreateSceneObjectDto}, TContext> => {
 
 const mutationKey = ['sceneObjectControllerCreate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -114,10 +120,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, void> = () => {
-          
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, {data: CreateSceneObjectDto}> = (props) => {
+          const {data} = props ?? {};
 
-          return  sceneObjectControllerCreate(axiosOptions)
+          return  sceneObjectControllerCreate(data,axiosOptions)
         }
 
         
@@ -126,15 +132,15 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type SceneObjectControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof sceneObjectControllerCreate>>>
-    
+    export type SceneObjectControllerCreateMutationBody = CreateSceneObjectDto
     export type SceneObjectControllerCreateMutationError = AxiosError<unknown>
 
     export const useSceneObjectControllerCreate = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, TError,void, TContext>, axios?: AxiosRequestConfig}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerCreate>>, TError,{data: CreateSceneObjectDto}, TContext>, axios?: AxiosRequestConfig}
  ): UseMutationResult<
         Awaited<ReturnType<typeof sceneObjectControllerCreate>>,
         TError,
-        void,
+        {data: CreateSceneObjectDto},
         TContext
       > => {
 
@@ -198,20 +204,22 @@ export function useSceneObjectControllerFindOne<TData = Awaited<ReturnType<typeo
 
 
 export const sceneObjectControllerUpdate = (
-    id: string, options?: AxiosRequestConfig
+    id: string,
+    updateSceneObjectDto: UpdateSceneObjectDto, options?: AxiosRequestConfig
  ): Promise<AxiosResponse<void>> => {
     
     
     return axios.default.put(
-      `/scene-objects/${id}`,undefined,options
+      `/scene-objects/${id}`,
+      updateSceneObjectDto,options
     );
   }
 
 
 
 export const getSceneObjectControllerUpdateMutationOptions = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, TError,{id: string}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, TError,{id: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, TError,{id: string;data: UpdateSceneObjectDto}, TContext>, axios?: AxiosRequestConfig}
+): UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, TError,{id: string;data: UpdateSceneObjectDto}, TContext> => {
 
 const mutationKey = ['sceneObjectControllerUpdate'];
 const {mutation: mutationOptions, axios: axiosOptions} = options ?
@@ -223,10 +231,10 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, {id: string;data: UpdateSceneObjectDto}> = (props) => {
+          const {id,data} = props ?? {};
 
-          return  sceneObjectControllerUpdate(id,axiosOptions)
+          return  sceneObjectControllerUpdate(id,data,axiosOptions)
         }
 
         
@@ -235,15 +243,15 @@ const {mutation: mutationOptions, axios: axiosOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type SceneObjectControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>>
-    
+    export type SceneObjectControllerUpdateMutationBody = UpdateSceneObjectDto
     export type SceneObjectControllerUpdateMutationError = AxiosError<unknown>
 
     export const useSceneObjectControllerUpdate = <TError = AxiosError<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, TError,{id: string}, TContext>, axios?: AxiosRequestConfig}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sceneObjectControllerUpdate>>, TError,{id: string;data: UpdateSceneObjectDto}, TContext>, axios?: AxiosRequestConfig}
  ): UseMutationResult<
         Awaited<ReturnType<typeof sceneObjectControllerUpdate>>,
         TError,
-        {id: string},
+        {id: string;data: UpdateSceneObjectDto},
         TContext
       > => {
 

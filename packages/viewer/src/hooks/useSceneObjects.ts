@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   useSceneObjectControllerFindAll,
+  useSceneObjectControllerCreate,
   useSceneObjectControllerRemove,
   getSceneObjectControllerFindAllQueryKey,
 } from '@object-lab/api-client';
-import axios from 'axios';
 
 export interface Vector3 {
   x: number;
@@ -21,39 +21,36 @@ export interface SceneObject {
   color: string;
 }
 
-const createSceneObject = async (data: Omit<SceneObject, 'id'>) => {
-  return axios.post('/scene-objects', data);
-};
-
 export const useSceneObjects = () => {
   const queryClient = useQueryClient();
 
-  // Fetch all scene objects
   const {
     data: objectsResponse,
     isLoading,
     error,
     refetch: fetchObjects,
-  } = useSceneObjectControllerFindAll();
+  } = useSceneObjectControllerFindAll({
+    axios: { baseURL: '/api' },
+  });
 
   const objects = (objectsResponse?.data || []) as SceneObject[];
 
-  const createMutation = useMutation({
-    mutationFn: createSceneObject,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: getSceneObjectControllerFindAllQueryKey(),
-      });
-    },
-    onError: (err) => {
-      console.error('Failed to add object:', err);
+  const createMutation = useSceneObjectControllerCreate({
+    axios: { baseURL: '/api' },
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getSceneObjectControllerFindAllQueryKey(),
+        });
+      },
+      onError: (err) => {
+        console.error('Failed to add object:', err);
+      },
     },
   });
 
   const deleteMutation = useSceneObjectControllerRemove({
-    axios: {
-      baseURL: '/api',
-    },
+    axios: { baseURL: '/api' },
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
@@ -66,7 +63,7 @@ export const useSceneObjects = () => {
     },
   });
 
-  const addObject = useCallback(async () => {
+  const addObject = useCallback(() => {
     const newObject = {
       type: 'cube' as const,
       color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
@@ -78,11 +75,11 @@ export const useSceneObjects = () => {
       scale: { x: 1, y: 1, z: 1 },
     };
 
-    createMutation.mutate(newObject);
+    createMutation.mutate({ data: newObject });
   }, [createMutation]);
 
   const deleteObject = useCallback(
-    async (id: string) => {
+    (id: string) => {
       deleteMutation.mutate({ id });
     },
     [deleteMutation]

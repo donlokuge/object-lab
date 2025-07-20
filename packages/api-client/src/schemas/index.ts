@@ -5,3 +5,8 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './createSceneObjectDto';
+export * from './createSceneObjectDtoType';
+export * from './updateSceneObjectDto';
+export * from './updateSceneObjectDtoType';
+export * from './vector3Dto';

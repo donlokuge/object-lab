@@ -10,10 +10,8 @@ import {
 } from '@nestjs/common';
 import { SceneObjectService } from './scene-object.service';
 import { SceneObject } from '../entities/scene-object.entity';
-import {
-  type CreateSceneObjectInput,
-  type UpdateSceneObjectInput,
-} from './schemas/scene-object.schema';
+import { CreateSceneObjectDto } from './dto/create-scene-object.dto';
+import { UpdateSceneObjectDto } from './dto/update-scene-object.dto';
 
 @Controller('scene-objects')
 export class SceneObjectController {
@@ -32,14 +30,14 @@ export class SceneObjectController {
   }
 
   @Post()
-  create(@Body() createDto: CreateSceneObjectInput): SceneObject {
+  create(@Body() createDto: CreateSceneObjectDto): SceneObject {
     return this.sceneObjectService.create(createDto);
   }
 
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateDto: UpdateSceneObjectInput
+    @Body() updateDto: UpdateSceneObjectDto
   ): SceneObject {
     const updated = this.sceneObjectService.update(id, updateDto);
     if (!updated) throw new NotFoundException(`SceneObject ${id} not found`);

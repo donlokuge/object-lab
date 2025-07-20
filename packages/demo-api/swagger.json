@@ -31,6 +31,16 @@
       "post": {
         "operationId": "SceneObjectController_create",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSceneObjectDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -75,6 +85,16 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSceneObjectDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": ""
@@ -116,6 +136,78 @@
   "tags": [],
   "servers": [],
   "components": {
-    "schemas": {}
+    "schemas": {
+      "Vector3Dto": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "CreateSceneObjectDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cube",
+              "sphere"
+            ],
+            "description": "Shape type"
+          },
+          "position": {
+            "$ref": "#/components/schemas/Vector3Dto"
+          },
+          "scale": {
+            "$ref": "#/components/schemas/Vector3Dto"
+          },
+          "color": {
+            "type": "string",
+            "example": "#ff0000",
+            "description": "Hex color code"
+          }
+        },
+        "required": [
+          "type",
+          "position",
+          "scale",
+          "color"
+        ]
+      },
+      "UpdateSceneObjectDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cube",
+              "sphere"
+            ]
+          },
+          "position": {
+            "$ref": "#/components/schemas/Vector3Dto"
+          },
+          "scale": {
+            "$ref": "#/components/schemas/Vector3Dto"
+          },
+          "color": {
+            "type": "string",
+            "example": "#ff0000"
+          }
+        }
+      }
+    }
   }
 }
