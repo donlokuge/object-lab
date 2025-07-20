@@ -29,14 +29,11 @@ export const useSceneObjects = () => {
     isLoading,
     error,
     refetch: fetchObjects,
-  } = useSceneObjectControllerFindAll({
-    axios: { baseURL: '/api' },
-  });
+  } = useSceneObjectControllerFindAll({});
 
   const objects = (objectsResponse?.data || []) as SceneObject[];
 
   const createMutation = useSceneObjectControllerCreate({
-    axios: { baseURL: '/api' },
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
@@ -50,7 +47,6 @@ export const useSceneObjects = () => {
   });
 
   const deleteMutation = useSceneObjectControllerRemove({
-    axios: { baseURL: '/api' },
     mutation: {
       onSuccess: () => {
         queryClient.invalidateQueries({
