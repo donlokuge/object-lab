@@ -44,6 +44,12 @@
         "options": {
           "passWithNoTests": true
         }
+      },
+      "generate-openapi": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "ts-node --project packages/demo-api/tsconfig.app.json packages/demo-api/src/swagger.ts"
+        }
       }
     }
   }

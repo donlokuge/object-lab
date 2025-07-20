@@ -8,6 +8,9 @@
     },
     {
       "path": "./packages/viewer"
+    },
+    {
+      "path": "./packages/api-client"
     }
   ]
 }
