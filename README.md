@@ -16,27 +16,44 @@ A comprehensive 3D scene management system built with NestJS and modern web tech
 npm install
 ```
 
-### Development
+### Running the Application
 
-#### Start the API server
-
+#### 1. Start the API Server
+```bash
+make serve
+```
+**or**
 ```bash
 npx nx run @object-lab/demo-api:serve
 ```
 
-#### Start the viewer application
+The API server will start on **http://localhost:3000**
 
+#### 2. Start the Client Application
+```bash
+make run
+```
+**or**
 ```bash
 npx nx run @object-lab/viewer:dev
 ```
 
-#### Run tests
+The client application will be available at **http://localhost:4200**
+
+### Development Workflow
+
+1. **Install dependencies**: `npm install`
+2. **Start the server**: `make serve` (runs on port 3000)
+3. **Start the client**: `make run` (runs on port 4200)
+4. **Navigate to**: http://localhost:4200
+
+### Testing
 
 ```bash
 nx run @object-lab/demo-api:test
 ```
 
-#### Create a new app
+### Create New Application
 
 ```bash
 npx nx g @nx/nest:app packages/${appname}
@@ -55,11 +72,9 @@ Interactive Swagger documentation is available at: **http://localhost:3000/api/d
 ### Available Endpoints
 
 #### App Controller
-
 - **GET** `/api` - Application health check
 
 #### Scene Objects
-
 - **GET** `/api/scene-objects` - Get all scene objects
 - **POST** `/api/scene-objects` - Create a new scene object
 - **GET** `/api/scene-objects/{id}` - Get scene object by ID
@@ -72,24 +87,38 @@ Interactive Swagger documentation is available at: **http://localhost:3000/api/d
 object-lab/
 ├── packages/
 │   ├── demo-api/          # NestJS API server
+│   ├── api-client/        # API client for the demo
 │   └── viewer/            # Frontend viewer application
+├── Makefile               # Make commands for easy development
 ├── README.md
 └── package.json
 ```
 
 ## 🛠️ Development Commands
 
-| Command              | Description                          |
-| -------------------- | ------------------------------------ |
-| `npm run serve`      | Start the demo API server            |
-| `npm run dev`        | Start the viewer in development mode |
-| `npm run test`       | Run API tests                        |
-| `npm run create-app` | Generate a new NestJS application    |
+| Command                | Description                          |
+| ---------------------- | ------------------------------------ |
+| `make serve`          | Start the demo API server            |
+| `make run`            | Start the viewer client application  |
+| `npm run test`        | Run API tests                        |
+| `npm run create-app`  | Generate a new NestJS application    |
 
+### Alternative Commands (without Make)
+
+| Command                                      | Description                          |
+| -------------------------------------------- | ------------------------------------ |
+| `npx nx run @object-lab/demo-api:serve`     | Start the demo API server            |
+| `npx nx run @object-lab/viewer:dev`         | Start the viewer in development mode |
+| `nx run @object-lab/demo-api:test`          | Run API tests                        |
 
 ## 🔧 Configuration
 
-The API server runs on port 3000 by default. You can override this by setting the `PORT` environment variable:
+### Port Configuration
+
+- **API Server**: Default port 3000
+- **Client Application**: Default port 4200
+
+You can override the API server port by setting the `PORT` environment variable:
 
 ```bash
 PORT=8080 npx nx run @object-lab/demo-api:serve
