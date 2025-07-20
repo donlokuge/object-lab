@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  useSceneObjectControllerFindAll,
+  useSceneObjectControllerRemove,
+  getSceneObjectControllerFindAllQueryKey,
+} from '@object-lab/api-client';
 import axios from 'axios';
 
 export interface Vector3 {
@@ -15,51 +21,83 @@ export interface SceneObject {
   color: string;
 }
 
-export const useSceneObjects = () => {
-  const [objects, setObjects] = useState<SceneObject[]>([]);
+const createSceneObject = async (data: Omit<SceneObject, 'id'>) => {
+  return axios.post('/scene-objects', data);
+};
 
-  const fetchObjects = useCallback(async () => {
-    try {
-      const res = await axios.get('/api/scene-objects');
-      setObjects(res.data || []);
-    } catch (err) {
-      console.error('Failed to fetch scene objects:', err);
-    }
-  }, []);
+export const useSceneObjects = () => {
+  const queryClient = useQueryClient();
+
+  // Fetch all scene objects
+  const {
+    data: objectsResponse,
+    isLoading,
+    error,
+    refetch: fetchObjects,
+  } = useSceneObjectControllerFindAll();
+
+  const objects = (objectsResponse?.data || []) as SceneObject[];
+
+  const createMutation = useMutation({
+    mutationFn: createSceneObject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: getSceneObjectControllerFindAllQueryKey(),
+      });
+    },
+    onError: (err) => {
+      console.error('Failed to add object:', err);
+    },
+  });
+
+  const deleteMutation = useSceneObjectControllerRemove({
+    axios: {
+      baseURL: '/api',
+    },
+    mutation: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getSceneObjectControllerFindAllQueryKey(),
+        });
+      },
+      onError: (err) => {
+        console.error('Failed to delete object:', err);
+      },
+    },
+  });
 
   const addObject = useCallback(async () => {
-    try {
-      await axios.post('/api/scene-objects', {
-        type: 'cube',
-        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-        position: {
-          x: Math.random() * 5,
-          y: Math.random() * 5,
-          z: Math.random() * 5,
-        },
-        scale: { x: 1, y: 1, z: 1 },
-      });
-      await fetchObjects();
-    } catch (err) {
-      console.error('Failed to add object:', err);
-    }
-  }, [fetchObjects]);
+    const newObject = {
+      type: 'cube' as const,
+      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      position: {
+        x: Math.random() * 5,
+        y: Math.random() * 5,
+        z: Math.random() * 5,
+      },
+      scale: { x: 1, y: 1, z: 1 },
+    };
+
+    createMutation.mutate(newObject);
+  }, [createMutation]);
 
   const deleteObject = useCallback(
     async (id: string) => {
-      try {
-        await axios.delete(`/api/scene-objects/${id}`);
-        await fetchObjects();
-      } catch (err) {
-        console.error('Failed to delete object:', err);
-      }
+      deleteMutation.mutate({ id });
     },
-    [fetchObjects]
+    [deleteMutation]
   );
 
-  useEffect(() => {
-    fetchObjects();
-  }, [fetchObjects]);
-
-  return { objects, addObject, deleteObject };
+  return {
+    objects,
+    isLoading,
+    error,
+    addObject,
+    deleteObject,
+    fetchObjects,
+    isCreating: createMutation.isPending,
+    isDeleting: deleteMutation.isPending,
+    createError: createMutation.error,
+    deleteError: deleteMutation.error,
+  };
 };
